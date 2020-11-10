@@ -32,48 +32,51 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(isGrounded)
         _Move();
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            _Jump();
+        }
     }
 
     private void _Move()
     {
+        if (joystick.Horizontal > joystickHorizontalSensitivity)
+        {
+            rb.AddForce(Vector2.right * horizontalForce * Time.deltaTime);
+            spriteRenderer.flipX = false;
+            m_animator.SetInteger("AnimState", 1);
+        }
+
+        else if (joystick.Horizontal < -joystickHorizontalSensitivity)
+        {
+            rb.AddForce(Vector2.left * horizontalForce * Time.deltaTime);
+            spriteRenderer.flipX = true;
+            m_animator.SetInteger("AnimState", 1);
+        }
+        else
+        {
+            m_animator.SetInteger("AnimState", 0);
+        }
+    }
+
+    public void _Jump()
+    {
         if (isGrounded)
         {
-            if (joystick.Horizontal > joystickHorizontalSensitivity)
-            {
-                rb.AddForce(Vector2.right * horizontalForce * Time.deltaTime);
-                spriteRenderer.flipX = false;
-                m_animator.SetInteger("AnimState", 1);
-            }
-
-            else if (joystick.Horizontal < -joystickHorizontalSensitivity)
-            {
-                rb.AddForce(Vector2.left * horizontalForce * Time.deltaTime);
-                spriteRenderer.flipX = true;
-                m_animator.SetInteger("AnimState", 1);
-            }
-            
-            else if(!isJumping)
-            {
-                m_animator.SetInteger("AnimState", 0);
-            }
-
-            if (joystick.Vertical > joystickVerticalSensitivity)
-            {
-                rb.AddForce(Vector2.up * verticalForce * Time.deltaTime);
-                m_animator.SetInteger("AnimState", 2);
-                isJumping = true;
-            }
-            else
-            {
-                isJumping = false;
-            }
+            m_animator.SetInteger("AnimState", 2);
+            rb.AddForce(Vector2.up * verticalForce);
+            isJumping = true;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        isGrounded = true;
+        if(other.gameObject.tag == "Platform")
+        {
+            isGrounded = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)
