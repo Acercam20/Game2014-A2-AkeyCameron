@@ -32,9 +32,8 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isGrounded)
         _Move();
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
             _Jump();
         }
@@ -44,14 +43,20 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (joystick.Horizontal > joystickHorizontalSensitivity)
         {
-            rb.AddForce(Vector2.right * horizontalForce * Time.deltaTime);
+            if (isGrounded)
+                rb.AddForce(Vector2.right * horizontalForce * Time.deltaTime);
+            else
+                rb.AddForce(Vector2.right * horizontalForce / 2 * Time.deltaTime);
             spriteRenderer.flipX = false;
             m_animator.SetInteger("AnimState", 1);
         }
 
         else if (joystick.Horizontal < -joystickHorizontalSensitivity)
         {
-            rb.AddForce(Vector2.left * horizontalForce * Time.deltaTime);
+            if (isGrounded)
+                rb.AddForce(Vector2.left * horizontalForce * Time.deltaTime);
+            else
+                rb.AddForce(Vector2.left * horizontalForce / 2 * Time.deltaTime);
             spriteRenderer.flipX = true;
             m_animator.SetInteger("AnimState", 1);
         }
@@ -63,7 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void _Jump()
     {
-        if (isGrounded)
+        if (!isJumping)
         {
             m_animator.SetInteger("AnimState", 2);
             rb.AddForce(Vector2.up * verticalForce);
@@ -76,6 +81,7 @@ public class PlayerBehaviour : MonoBehaviour
         if(other.gameObject.tag == "Platform")
         {
             isGrounded = true;
+            isJumping = false;
         }
     }
 
