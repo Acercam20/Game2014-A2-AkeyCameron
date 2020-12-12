@@ -6,6 +6,9 @@ TagManager:
   tags:
   - DeathPlane
   - Platform
+  - MovingPlatform
+  - StartingPosition
+  - GlobalController
   layers:
   - Default
   - TransparentFX

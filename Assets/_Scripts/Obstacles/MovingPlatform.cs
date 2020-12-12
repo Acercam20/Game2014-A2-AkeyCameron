@@ -16,16 +16,26 @@ public class MovingPlatform : MonoBehaviour
     public Vector3 startingPosition;
     public PlatformDirection platformDirection;
     public bool flip = false;
+    public float startDelay = 0.0f;
+    public bool isActive = false;
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(StartDelay(startDelay));
         startingPosition = transform.position;
     }
 
+    IEnumerator StartDelay(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        isActive = true;
+    }
     // Update is called once per frame
     void Update()
     {
-        MoveInDirection();
+        if (isActive)
+            MoveInDirection();
     }
 
     private void MoveInDirection()
@@ -112,4 +122,5 @@ public class MovingPlatform : MonoBehaviour
 
         //transform.velocity = new Vector3(transform.velocity.x, transform.velocity.y, transform.velocity.z);
     }
+
 }

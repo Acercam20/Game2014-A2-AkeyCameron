@@ -3,6 +3,7 @@ using System.Collections.Generic;
 //using System.Diagnostics;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -16,7 +17,13 @@ public class PlayerBehaviour : MonoBehaviour
     public bool isGrounded;
     public bool isJumping;
     public Transform spawnPoint;
+    public int maxLives = 3;
+    public int currentLives;
+    public GameObject life1;
+    public GameObject life2;
+    public GameObject life3;
 
+    private Transform currentMovingPlatform;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Animator m_animator;
@@ -24,6 +31,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentLives = maxLives;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         m_animator = GetComponent<Animator>();
@@ -83,16 +91,64 @@ public class PlayerBehaviour : MonoBehaviour
             isGrounded = true;
             isJumping = false;
         }
+        else if (other.gameObject.tag == "MovingPlatform")
+        {
+            isGrounded = true;
+            isJumping = false;
+            currentMovingPlatform = other.gameObject.transform;
+            transform.SetParent(currentMovingPlatform);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
         isGrounded = false;
+        if (other.gameObject.tag == "MovingPlatform")
+        {
+            transform.parent = null;
+            currentMovingPlatform = null;
+        }
+        if (other.gameObject.CompareTag("DeathPlane"))
+            transform.position = spawnPoint.position;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("DeathPlane"))
+        {
+            LoseLife();
+        }
+
+        if (other.gameObject.tag == "Platform")
+        {
+            isGrounded = true;
+            isJumping = false;
+        }
+    }
+
+    public void LoseLife()
+    {
         transform.position = spawnPoint.position;
+        currentLives--;
+
+        switch (currentLives)
+        {
+            case 2:
+                life3.SetActive(false);
+                break;
+            case 1:
+                life2.SetActive(false);
+                break;
+            case 0:
+                life1.SetActive(false);
+                spawnPoint = GameObject.FindWithTag("StartingPosition").transform;
+                currentLives = maxLives;
+                SceneManager.LoadScene("Defeat Screen");
+                //Reset score
+                break;
+            default:
+                print("Amount of lives remaining error!");
+                break;
+        }
     }
 }
