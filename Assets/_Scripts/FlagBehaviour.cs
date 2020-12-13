@@ -25,6 +25,8 @@ public class FlagBehaviour : MonoBehaviour
         {
             if (checkpointFlag)
             {
+                other.gameObject.GetComponent<AudioSource>().clip = other.gameObject.GetComponent<PlayerBehaviour>().flagSFX;
+                other.gameObject.GetComponent<AudioSource>().Play();
                 other.gameObject.GetComponent<PlayerBehaviour>().spawnPoint = this.gameObject.transform;
             }
             else

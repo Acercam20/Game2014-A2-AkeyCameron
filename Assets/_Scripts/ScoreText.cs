@@ -8,6 +8,7 @@ public class ScoreText : MonoBehaviour
     public GameObject controller;
     int score = 0;
     public Text setText;
+    string toPrint;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,8 @@ public class ScoreText : MonoBehaviour
     void Update()
     {
         score = controller.GetComponent<GlobalController>().timerScore;
-        setText.text = "Your time was: " + score;
+        Debug.Log(score);
+        toPrint = "Your time was: " + score.ToString();
+        setText.text = toPrint;
     }
 }

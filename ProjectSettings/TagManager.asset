@@ -9,6 +9,8 @@ TagManager:
   - MovingPlatform
   - StartingPosition
   - GlobalController
+  - Pickup
+  - BGM
   layers:
   - Default
   - TransparentFX

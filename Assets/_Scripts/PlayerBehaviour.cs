@@ -22,6 +22,10 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject life1;
     public GameObject life2;
     public GameObject life3;
+    public AudioClip deathSFX;
+    public AudioClip flagSFX;
+    public AudioClip gemSFX;
+    public AudioClip jumpSFX;
 
     private Transform currentMovingPlatform;
     private Rigidbody2D rb;
@@ -78,6 +82,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (!isJumping)
         {
+            GetComponent<AudioSource>().clip = jumpSFX;
+            GetComponent<AudioSource>().Play();
             m_animator.SetInteger("AnimState", 2);
             rb.AddForce(Vector2.up * verticalForce);
             isJumping = true;
@@ -109,7 +115,10 @@ public class PlayerBehaviour : MonoBehaviour
             currentMovingPlatform = null;
         }
         if (other.gameObject.CompareTag("DeathPlane"))
-            transform.position = spawnPoint.position;
+        {
+            LoseLife();
+        }
+            
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -124,10 +133,21 @@ public class PlayerBehaviour : MonoBehaviour
             isGrounded = true;
             isJumping = false;
         }
+
+        if (other.gameObject.tag == "Pickup")
+        {
+            //Apply Pickup benefits
+            GetComponent<AudioSource>().clip = gemSFX;
+            GetComponent<AudioSource>().Play();
+            Destroy(other.gameObject);
+        }
     }
 
     public void LoseLife()
     {
+        GetComponent<AudioSource>().clip = deathSFX;
+        GetComponent<AudioSource>().Play();
+
         transform.position = spawnPoint.position;
         currentLives--;
 
@@ -141,6 +161,8 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
             case 0:
                 life1.SetActive(false);
+                break;
+            case -1:
                 spawnPoint = GameObject.FindWithTag("StartingPosition").transform;
                 currentLives = maxLives;
                 SceneManager.LoadScene("Defeat Screen");
