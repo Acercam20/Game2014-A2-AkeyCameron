@@ -6,17 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Platformer.unity
-    guid: 81c62290be3520841a6c9611a383443c
+    path: Assets/_Scenes/Splash Screen.unity
+    guid: 9c8b2c1d2ff8b7245be9c1975768932d
   - enabled: 1
-    path: Assets/_Scenes/Start Screen.unity
-    guid: 554c4ab2716831848a07790c79431753
+    path: Assets/_Scenes/Main Menu.unity
+    guid: 8734e3a9f4b4cb64c9e47cf597ff955c
   - enabled: 1
     path: Assets/_Scenes/Options.unity
     guid: 346facc345a5ad244b278d5de39a6c7b
   - enabled: 1
-    path: Assets/_Scenes/Main Menu.unity
-    guid: 8734e3a9f4b4cb64c9e47cf597ff955c
+    path: Assets/_Scenes/Platformer.unity
+    guid: 81c62290be3520841a6c9611a383443c
   - enabled: 1
     path: Assets/_Scenes/Defeat Screen.unity
     guid: 6accac7a62fc2884faa7ae99cc44adec
@@ -24,6 +24,6 @@ EditorBuildSettings:
     path: Assets/_Scenes/Victory Screen.unity
     guid: 855666e0fb3b9a440a39ae8ca5313b9f
   - enabled: 1
-    path: Assets/_Scenes/Splash Screen.unity
-    guid: 9c8b2c1d2ff8b7245be9c1975768932d
+    path: Assets/_Scenes/Start Screen.unity
+    guid: 554c4ab2716831848a07790c79431753
   m_configObjects: {}

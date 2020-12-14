@@ -7,6 +7,7 @@ public class FlagBehaviour : MonoBehaviour
 {
     public bool checkpointFlag = true;
     public Sprite activeSprite;
+    bool alreadyHit = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,18 +24,22 @@ public class FlagBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            if (checkpointFlag)
+            if (!alreadyHit)
             {
-                other.gameObject.GetComponent<AudioSource>().clip = other.gameObject.GetComponent<PlayerBehaviour>().flagSFX;
-                other.gameObject.GetComponent<AudioSource>().Play();
-                other.gameObject.GetComponent<PlayerBehaviour>().spawnPoint = this.gameObject.transform;
+                if (checkpointFlag)
+                {
+                    other.gameObject.GetComponent<AudioSource>().clip = other.gameObject.GetComponent<PlayerBehaviour>().flagSFX;
+                    other.gameObject.GetComponent<AudioSource>().Play();
+                    other.gameObject.GetComponent<PlayerBehaviour>().spawnPoint = this.gameObject.transform;
+                }
+                else
+                {
+                    other.gameObject.GetComponent<PlayerBehaviour>().spawnPoint = GameObject.FindWithTag("StartingPosition").transform;
+                    SceneManager.LoadScene("Victory Screen");
+                }
+                gameObject.GetComponent<SpriteRenderer>().sprite = activeSprite;
+                alreadyHit = true;
             }
-            else
-            {
-                other.gameObject.GetComponent<PlayerBehaviour>().spawnPoint = GameObject.FindWithTag("StartingPosition").transform;
-                SceneManager.LoadScene("Victory Screen");
-            }
-            gameObject.GetComponent<SpriteRenderer>().sprite = activeSprite;
         }
     }
 }

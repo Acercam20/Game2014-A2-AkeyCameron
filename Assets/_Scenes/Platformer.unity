@@ -358,10 +358,10 @@ MonoBehaviour:
   life1: {fileID: 1016207976}
   life2: {fileID: 1777013425}
   life3: {fileID: 1654278219}
-  deathSFX: {fileID: 0}
-  flagSFX: {fileID: 0}
-  gemSFX: {fileID: 0}
-  jumpSFX: {fileID: 0}
+  deathSFX: {fileID: 8300000, guid: b7a28b9f50ff34eceac8c2bc1128906e, type: 3}
+  flagSFX: {fileID: 8300000, guid: c2cb95cad69364453906a6072376c896, type: 3}
+  gemSFX: {fileID: 8300000, guid: 55878adee874945038a7f18f94154c83, type: 3}
+  jumpSFX: {fileID: 8300000, guid: 4944f2a22aa784bcdbd0ab0debe7126c, type: 3}
 --- !u!50 &45737285
 Rigidbody2D:
   serializedVersion: 4
